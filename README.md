@@ -24,14 +24,20 @@ The **Temperature Data** contains the following fields:
 Date | Average Temperature | Average Temperature Uncertainity | 
 
 The **Airport Code Data** contains the following fields:
+Ident | type | name | elevation_ft | continent | iso_country | iso_region | municipality | gps_code | iata_code | local_code | co-ordinates
 
 
 ### Questions that can be asked
 Before we proceed with the ETL process we need to focus on the questions we would like to ask
-1. 
-2. 
-3. 
-4. 
+1. Top 3 ports with highest number of immigrants
+2. States with the ports seeing most number of immigrants
+3. Top 3 countries (residence) from which most people travel to the US
+4. Number of males and females immigrants for a given month in a year
+5. Number of males and females immigrants for a given airport
+6. US states/regions preferred by Female Immigrants
+7. Avg age of immigrants for a given month in a year
+8. Most common visa type for immigrants for a given month and year or US region (state)
+9. Most common purpose of visit for immigrants for a given month and year or US region (state)
 
 To answer the questions above, we proceed with the ETL as follows
 
@@ -40,7 +46,7 @@ The conceptual data model has been designed as below
 
 
 ### Data Dictionary
-Dimension tables
+**Dimension tables**
 
 1. People Table
 
@@ -50,7 +56,15 @@ Dimension tables
 | Gender | Gender | String |
 | i94res | Country of residence | Double |
 | i94cit | Country of citizenship | Double |
+| bir_year | Year of Birth | Double |
+| age | Age | Double |
+| i94addr | State of resisdence in US | String |
 
+2. Date table
+3. Cities table
+4. Visa table
+
+**Fact table**
 
 ### Tools
 We use Apache Spark to read the data from S3, process the data and store the analytical tables back on S3.
