@@ -2,6 +2,7 @@
 Define scope of the project and the required data to build an ETL model
 
 ### Project Scope
+I have decided to proceed with the Udacity provided project. The dataset provided is a huge one - the US I94 Immigration Data. A few other unrelated smaller datasets have also been provided. 
 
 ### The Data
 Four datasets have been considered:
@@ -12,23 +13,61 @@ Four datasets have been considered:
 
 The **immigration Data** contains the following information:
 
- cicid, i94yr, i94mon, i94cit, i94res, i94port, arrdate,  i94mode, i94addr, depdate, i94bir, i94visa, count, dtadfile, visapost, occup, entdepa, entdepd, entdepu , matflag: string 
- - biryear: double 
- - dtaddto: string 
- - gender: string 
- - insnum: string 
- - airline: string 
- - admnum: double 
- - fltno: string 
- - visatype: string 
+cicid | i94yr | i94mon | i94cit | i94res | i94port | arrdate | i94mode | i94addr | depdate | i94bir | i94visa | count | dtadfile | visapost | occup | entdepa | entdepd | entdepu | matflag | biryear | dtaddto | gender | insnum | airline | admnum | fltno | visatype
 
 The **Cities data** contains the following information:
 
-City, State, Median Age, Male Population, Female Population, Total Population, Number of Veterans, Foreign-born, Average Household Size, State Code, Race, Count
+City | State | Median Age | Male Population | Female Population | Total Population | Number of Veterans | Foreign-born | Average Household Size | State Code | Race | Count
 
 The **Temperature Data** contains the following fields:
-Date, Average Temperature,  Average Temperature Uncertainity 
+
+Date | Average Temperature | Average Temperature Uncertainity | 
+
+The **Airport Code Data** contains the following fields:
+
+
+### Questions that can be asked
+Before we proceed with the ETL process we need to focus on the questions we would like to ask
+1. 
+2. 
+3. 
+4. 
+
+To answer the questions above, we proceed with the ETL as follows
 
 ### The Data model
+The conceptual data model has been designed as below
+
+
+### Data Dictionary
+Dimension tables
+
+1. People Table
+
+| Field Name | Description | Data Type |
+| ----------- | ----------- | ----------- |
+| Cicid | Id | Double |
+| Gender | Gender | String |
+| i94res | Country of residence | Double |
+| i94cit | Country of citizenship | Double |
+
+
+### Tools
+We use Apache Spark to read the data from S3, process the data and store the analytical tables back on S3.
+The I94 Immigration file are huge SAS files. The most convenient way would be to read and process them using spark.
 
 ### ETL pipeline
+
+1. Read the raw data from S3 into staging tables 
+2. Clean the data
+- Drop the columns with most null values
+- Drop rows with null values for certain columns
+3. Perform transformations on the data
+- Convert the arrival date and the 
+4. Use the data to create the fact and dimensions tables
+5. Save the fact and dimension tables back on S3 as parquet files
+
+### Future scenarios
+1. If the data was increased by 100x.
+2. If the pipelines were run on a daily basis by 7am.
+3. If the database needed to be accessed by 100+ people.
