@@ -30,14 +30,13 @@ Ident | type | name | elevation_ft | continent | iso_country | iso_region | muni
 ### Questions that can be asked
 Before we proceed with the ETL process we need to focus on the questions we would like to ask
 1. Top 3 ports with highest number of immigrants for a given year
-2. States/regions with the ports seeing most number of immigrants for a given year
-3. Top 3 countries (residence) from which most people travel to the US for a given year
-4. Number of males and females immigrants for a given month in a year
-5. Number of males and females immigrants for a given airport
-6. US states/regions preferred by Female Immigrants over the years
-7. Avg age of immigrants for a given month in a year
-8. Most common visa type for immigrants for a given month and year or US region (state)
-9. Most common purpose of visit for immigrants for a given month and year or US region (state)
+2. States/regions with the ports seeing most number of immigrants for a given month in a year
+3. Number of males and females immigrants for a given month in a year
+4. Number of males and females immigrants for a given airport
+5. US states/regions preferred by Female Immigrants over the years
+6. Avg age of immigrants for a given month in a year
+7. Most common visa type for immigrants for a given month and year or US region (state)
+8. Most common purpose of visit for immigrants for a given month and year or US region (state)
 
 To answer the questions above, we proceed with the ETL as follows
 
