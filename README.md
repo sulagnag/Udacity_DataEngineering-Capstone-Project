@@ -37,7 +37,7 @@ To answer the questions above, we proceed with the ETL as follows
 
 ### The Data model
 The conceptual data model has been designed as below
-
+![](images/ER_diagram.png)
 
 
 
