@@ -80,6 +80,16 @@ The I94 Immigration file are huge SAS files. The most convenient way would be to
 4. Use the data to create the fact and dimensions tables
 5. Save the fact and dimension tables back on S3 as parquet files
 
+### Executing on AWS EMR cluster
+ 1. Enable SSH to the master node
+ 2. SCP the etl script to the master node
+ 3. For reading SAS files into spark dataframe, we need 2 jars 
+ - spark-sas7bdat-3.0.0-s_2.11 [Github link](https://github.com/saurfang/spark-sas7bdat)
+ - parso-2.0.11.jar
+ 5. scp the jar files to the master node and move them to the /spark/lib/jars folder
+ 6. Execute the etl script using the following command 
+ **/usr/bin/spark-submit --master yarn etl_capstone.py  saurfang:spark-sas7bdat:3.0.0-s_2.11**
+
 ### Future scenarios
 1. If the data was increased by 100x.
 2. If the pipelines were run on a daily basis by 7am.
