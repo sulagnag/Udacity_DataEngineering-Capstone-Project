@@ -82,17 +82,28 @@ df_top=df_imm.groupBy("i94port").agg(f.sum('count').alias("total")).sort(desc("t
 
 2. Number of males, females entering US at MIA port and in the month of April
  df_imm.join(df_ppl, df_imm.cicid == df_ppl.cicid).filter((df_imm["i94port"]=="MIA") &(df_imm['i94mon']=='4')).groupBy("gender").agg(f.sum("count")).show()
- +------+----------+
-|gender|sum(count)|
-+------+----------+
+ 
+|gender|sum(count) |
+| ------ | -------- |
 |     F|  139409.0|
 |     M|  137161.0|
 |     U|       2.0|
 |     X|       2.0|
-+------+----------+
 
+
+### Freuency of data updates
+The above pipeline has been modelled to partition the vast immigration data by port and by month. The data can thus be updated at the end of every month and the etl pipeline can executed to have the updated data for every port in US
+New monthly files can be read in and data can be appended to the existing parquet analytical files in S3.
 
 ### Future scenarios
 1. If the data was increased by 100x.
+IF the data increased by 100x - We would need to increase number of worker nodes in the EMR cluster using spark. Spark allows us to hv multiple tasks running in parallel. increasing number of partitions and hence the number of tasks will speed things up
+
 2. If the pipelines were run on a daily basis by 7am.
+We need the pipelines to be run daily by 7am, we need to use Apache airflow to schedule the run. 
+For using Airflow, the SAS files will first need to be converted to csv files and then read into redshift database. I am not aware of a way to read SAS files directly into Redshift.
+These steps can be configured in an airflow dag and daily runs can be scheduled for the new data only.
+
 3. If the database needed to be accessed by 100+ people.
+Once on Redhist, AWS has the capability to allow 100+ connections.
+ 
