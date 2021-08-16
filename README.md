@@ -39,70 +39,6 @@ To answer the questions above, we proceed with the ETL as follows
 The conceptual data model has been designed as below
 ![](images/ER_diagram.png)
 
-
-
-### Data Dictionary
-**Dimension tables**
-
-1. **I94 People Table**
-
-| Field Name | Description | Data Type |
-| ----------- | ----------- | ----------- |
-| Cicid | Id | Double |
-| Gender | Gender | String |
-| i94res | Country of residence | Double |
-| i94cit | Country of citizenship | Double |
-| bir_year | Year of Birth | Double |
-| age | Age | Double |
-| i94addr | State of resisdence in US | String |
-
-2. **I94 Date table**
- 
-| Field Name | Description | Data Type |
-| ----------- | ----------- | ----------- |
-| Date | Id | Date |
-| Day | Day of month | int |
-| Month | Month of year | int |
-| Year | Year | int |
-
-4. **Visa table**
-
-| Field Name | Description | Data Type |
-| ----------- | ----------- | ----------- |
-| Visa_type | Visa type | Double |
-| Purpose | Purpose of visit | String |
-
-5. **AirportCodes Table**
-
-| Field Name | Description | Data Type |
-| ----------- | ----------- | ----------- |
-| Iiata_code | Airport unique code | String |
-| Name | Name of airport | String |
-| region | US region/state | String |
-
-Child table
-1. **US States Demographics table**
-
-| Field Name | Description | Data Type |
-| ----------- | ----------- | ----------- |
-| state_code | US State code | String |
-| median_age | Avg age of the residents of the state | String |
-| total_population | Total Population of state | String |
-
-**Fact table**
-
-1. **I94_immigration_table**
-
-| Field Name | Description | Data Type |
-| ----------- | ----------- | ----------- |
-| Cicid | Id | Double |
-| i94port | Port of entry | String |
-| i94mon | Month of entry | Double |
-| arrdate | Date of arrival | Double |
-| deptdate | Date of departure | Double |
-| visatype | Type of visa  | String |
-| count | Number  | Double |
-
 ### Tools
 We use Apache Spark to read the data from S3, process the data and store the analytical tables back on S3.
 The I94 Immigration file are huge SAS files. The most convenient way would be to read and process them using spark.
@@ -127,6 +63,34 @@ The I94 Immigration file are huge SAS files. The most convenient way would be to
  5. scp the jar files to the master node and move them to the /spark/lib/jars folder
  6. Execute the etl script using the following command 
  **/usr/bin/spark-submit --master yarn etl_capstone.py  saurfang:spark-sas7bdat:3.0.0-s_2.11**
+
+### Data Quality checks
+We run a check for the following:
+1. The data types of the columns in the fact and dimension tables
+2. Query for the questions we needed answeres to
+
+**1. Ports in US that see highest entry of immigrants**
+df_top=df_imm.groupBy("i94port").agg(f.sum('count').alias("total")).sort(desc("total")).show(3)
+
+
+| i94port |   total |
+| ------- |-------- |
+|    NYC|374263.0|
+|    MIA|276574.0|
+|    LOS|238106.0|
+
+
+2. Number of males, females entering US at MIA port and in the month of April
+ df_imm.join(df_ppl, df_imm.cicid == df_ppl.cicid).filter((df_imm["i94port"]=="MIA") &(df_imm['i94mon']=='4')).groupBy("gender").agg(f.sum("count")).show()
+ +------+----------+
+|gender|sum(count)|
++------+----------+
+|     F|  139409.0|
+|     M|  137161.0|
+|     U|       2.0|
+|     X|       2.0|
++------+----------+
+
 
 ### Future scenarios
 1. If the data was increased by 100x.
