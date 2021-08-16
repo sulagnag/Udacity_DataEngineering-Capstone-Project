@@ -7,7 +7,6 @@ I have decided to proceed with the Udacity provided project. The dataset provide
 ### The Data
 Four datasets have been considered:
 - **I94 Immigration Data**: This data comes from the US National Tourism and Trade Office.
-- **World Temperature Data**: This dataset came from Kaggle.
 - **U.S. City Demographic Data**: This data comes from OpenSoft. 
 - **Airport Code Table**: This is a simple table of airport codes and corresponding cities. 
 
@@ -18,10 +17,6 @@ cicid | i94yr | i94mon | i94cit | i94res | i94port | arrdate | i94mode | i94addr
 The **Cities data** contains the following information:
 
 City | State | Median Age | Male Population | Female Population | Total Population | Number of Veterans | Foreign-born | Average Household Size | State Code | Race | Count
-
-The **Temperature Data** contains the following fields:
-
-Date | Average Temperature | Average Temperature Uncertainity | 
 
 The **Airport Code Data** contains the following fields:
 Ident | type | name | elevation_ft | continent | iso_country | iso_region | municipality | gps_code | iata_code | local_code | co-ordinates
@@ -44,10 +39,12 @@ To answer the questions above, we proceed with the ETL as follows
 The conceptual data model has been designed as below
 
 
+
+
 ### Data Dictionary
 **Dimension tables**
 
-1. People Table
+1. **I94 People Table**
 
 | Field Name | Description | Data Type |
 | ----------- | ----------- | ----------- |
@@ -59,11 +56,52 @@ The conceptual data model has been designed as below
 | age | Age | Double |
 | i94addr | State of resisdence in US | String |
 
-2. Date table
-3. Cities table
-4. Visa table
+2. **I94 Date table**
+ 
+| Field Name | Description | Data Type |
+| ----------- | ----------- | ----------- |
+| Date | Id | Date |
+| Day | Day of month | int |
+| Month | Month of year | int |
+| Year | Year | int |
+
+4. **Visa table**
+
+| Field Name | Description | Data Type |
+| ----------- | ----------- | ----------- |
+| Visa_type | Visa type | Double |
+| Purpose | Purpose of visit | String |
+
+5. **AirportCodes Table**
+
+| Field Name | Description | Data Type |
+| ----------- | ----------- | ----------- |
+| Iiata_code | Airport unique code | String |
+| Name | Name of airport | String |
+| region | US region/state | String |
+
+Child table
+1. **US States Demographics table**
+
+| Field Name | Description | Data Type |
+| ----------- | ----------- | ----------- |
+| state_code | US State code | String |
+| median_age | Avg age of the residents of the state | String |
+| total_population | Total Population of state | String |
 
 **Fact table**
+
+1. **I94_immigration_table**
+
+| Field Name | Description | Data Type |
+| ----------- | ----------- | ----------- |
+| Cicid | Id | Double |
+| i94port | Port of entry | String |
+| i94mon | Month of entry | Double |
+| arrdate | Date of arrival | Double |
+| deptdate | Date of departure | Double |
+| visatype | Type of visa  | String |
+| count | Number  | Double |
 
 ### Tools
 We use Apache Spark to read the data from S3, process the data and store the analytical tables back on S3.
