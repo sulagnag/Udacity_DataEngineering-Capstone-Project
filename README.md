@@ -81,7 +81,7 @@ df_top=df_imm.groupBy("i94port").agg(f.sum('count').alias("total")).sort(desc("t
 
 
 2. Number of males, females entering US at MIA port and in the month of April
- df_imm.join(df_ppl, df_imm.cicid == df_ppl.cicid).filter((df_imm["i94port"]=="MIA") &(df_imm['i94mon']=='4')).groupBy("gender").agg(f.sum("count")).show()
+ df_imm.join(df_ppl, df_imm.cicid == df_ppl.cicid).filter((df_imm["i94port"]=="MIA") &(df_imm['i94mon']=='4')).groupBy("gender").sum("count").show()
  
 |gender|sum(count) |
 | ------ | -------- |
