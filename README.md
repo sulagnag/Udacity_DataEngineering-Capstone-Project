@@ -105,5 +105,6 @@ For using Airflow, the SAS files will first need to be converted to csv files an
 These steps can be configured in an airflow dag and daily runs can be scheduled for the new data only.
 
 3. If the database needed to be accessed by 100+ people.
-Once on Redhist, AWS has the capability to allow 100+ connections.
+User profiles can be created with necessary permissions for accessing S3.
+Once the analytical tables are placed on Redshift, AWS is capable of scaling up to provide access to 100+ users.
  
